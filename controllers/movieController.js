@@ -35,6 +35,26 @@ const searchMovies = async (req, res) => {
 
 const getMovieDetails = async (req, res) => {
 
+    //path parameter
+    const id = req.params.id
+
+    try {
+        //send GET request to OMDB API to fetch movie details by IMDB id 
+        const response = await axios.get(BASE_URL, {
+            params: {
+                i: id,
+                apikey: OMDB_API_KEY
+            }
+        });
+        //The data is already parsed and available in response.data
+        res.json(response.data);
+
+    } catch (error) {
+        console.log("OMDB API ERROR", error.message);
+        res.status(500).json({ message: 'Error fetching the data from OMDB API' })
+
+    }
+
 }
 
 //Export an object containing the functions
